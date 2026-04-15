@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
 
+import { GooeyText } from './gooey-text-morphing';
+
 // Interface for the props of each individual icon, adapted for Next/Image and PNGs
 export interface IconProps {
   id: number;
@@ -17,7 +19,7 @@ export interface IconProps {
 // Interface for the main hero component's props.
 export interface FloatingIconsHeroProps {
   title: string;
-  subtitle: string;
+  subtitle: string | string[];
   ctaText?: string;
   ctaHref?: string;
   icons: IconProps[];
@@ -170,9 +172,15 @@ const FloatingIconsHero = React.forwardRef<
           ))}
         </h1>
         <div className="mt-12 flex justify-center pointer-events-auto">
-          <p className="max-w-xl font-headline uppercase tracking-[0.3em] text-white text-xs md:text-sm font-bold bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3">
-            {subtitle}
-          </p>
+          {Array.isArray(subtitle) ? (
+            <div className="w-full max-w-xl">
+               <GooeyText texts={subtitle} />
+            </div>
+          ) : (
+            <p className="max-w-xl font-headline uppercase tracking-[0.3em] text-white text-xs md:text-sm font-bold bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3">
+              {subtitle}
+            </p>
+          )}
         </div>
       </div>
     </section>

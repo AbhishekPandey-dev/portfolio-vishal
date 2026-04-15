@@ -26,7 +26,11 @@ export function HeroSection() {
   return (
     <FloatingIconsHero
       title="Vishal Singh"
-      subtitle="Full Stack Web Developer • UI/UX Designer • 8+ Years Experience"
+      subtitle={[
+        "Full Stack Web Developer",
+        "UI/UX Designer",
+        "8+ Years Experience"
+      ]}
       icons={demoIcons}
       className="bg-black"
     />
