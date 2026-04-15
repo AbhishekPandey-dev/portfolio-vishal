@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { type Project } from "@/types";
 import { SectionLabel } from "../ui/SectionLabel";
+import { Magnetic } from "../ui/Magnetic";
 
 const DUMMY_PROJECTS: Project[] = [
   {
@@ -79,27 +80,29 @@ export function WorkSection() {
           <span className="font-label text-sm uppercase tracking-[0.3em] text-white/40">2021 — 2024</span>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {DUMMY_PROJECTS.map((project) => (
-            <div key={project.id} className="project-card group relative aspect-[4/5] bg-black overflow-hidden cursor-pointer">
-              <div className="absolute inset-0 z-0">
-                <Image 
-                  src={project.coverImage} 
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[700ms] group-hover:scale-105 ease-cinematic"
-                />
+            <Magnetic key={project.id}>
+              <div className="project-card group relative aspect-[16/10] bg-zinc-900 overflow-hidden cursor-none">
+                <div className="absolute inset-0 z-0">
+                  <Image 
+                    src={project.coverImage} 
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-[700ms] group-hover:scale-105 ease-cinematic"
+                  />
+                </div>
+                <div className="absolute inset-0 z-10 p-12 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+                  <span className="font-label text-[10px] uppercase tracking-[0.3em] mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white/80">
+                    {project.category}
+                  </span>
+                  <h3 className="text-4xl md:text-5xl font-black font-headline uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-cinematic text-white">
+                    {project.title}
+                  </h3>
+                </div>
               </div>
-              <div className="absolute inset-0 z-10 p-12 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
-                <span className="font-label text-[10px] uppercase tracking-[0.3em] mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-white/80">
-                  {project.category}
-                </span>
-                <h3 className="text-4xl md:text-5xl font-black font-headline uppercase transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-cinematic text-white">
-                  {project.title}
-                </h3>
-              </div>
-            </div>
+            </Magnetic>
           ))}
         </div>
       </div>

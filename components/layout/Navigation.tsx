@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
+import { Magnetic } from "../ui/Magnetic";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -42,37 +43,46 @@ export function Navigation() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl flex justify-between items-center px-8 py-6 max-w-full mx-auto transition-all duration-300"
+      className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl flex justify-between items-center px-8 py-6 max-w-full mx-auto transition-all duration-300 pointer-events-none"
     >
-      <Link
-        href="/"
-        className="text-2xl font-black tracking-tighter text-white font-headline hover:opacity-70 transition-opacity"
-      >
-        VISHAL SINGH
-      </Link>
+      <div className="pointer-events-auto">
+        <Magnetic>
+          <Link
+            href="/"
+            className="text-2xl font-black tracking-tighter text-white font-headline hover:opacity-70 transition-opacity p-4 block"
+          >
+            VISHAL SINGH
+          </Link>
+        </Magnetic>
+      </div>
 
-      <div className="hidden md:flex gap-10">
+      <div className="hidden md:flex gap-10 pointer-events-auto">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`font-headline uppercase tracking-widest text-sm transition-all duration-300 ${
-                isActive
-                  ? "text-white border-b-2 border-white pb-1"
-                  : "text-white/50 hover:text-white"
-              }`}
-            >
-              {item.label}
-            </Link>
+            <Magnetic key={item.href}>
+              <Link
+                href={item.href}
+                className={`font-headline uppercase tracking-widest text-sm transition-all duration-300 p-4 block ${
+                  isActive
+                    ? "text-white border-b-2 border-white"
+                    : "text-white/50 hover:text-white"
+                }`}
+              >
+                {item.label}
+              </Link>
+            </Magnetic>
           );
         })}
       </div>
 
-      <button className="hidden md:block font-headline uppercase tracking-widest text-sm bg-white text-black px-6 py-2 font-bold hover:bg-zinc-200 transition-all duration-300">
-        RESUME
-      </button>
+      <div className="hidden md:block pointer-events-auto">
+        <Magnetic>
+          <button className="font-headline uppercase tracking-widest text-sm bg-white text-black px-6 py-2 font-bold hover:bg-zinc-200 transition-all duration-300">
+            RESUME
+          </button>
+        </Magnetic>
+      </div>
 
       {/* Mobile Menu Icon (simplified) */}
       <button className="md:hidden text-white">

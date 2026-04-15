@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/providers/LenisProvider";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 const processHeadline = Space_Grotesk({
   variable: "--font-headline",
@@ -42,10 +43,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${processHeadline.variable} ${processLabel.variable} ${bodyInter.variable} ${displayAlumni.variable} dark antialiased`}
+      className={`${processHeadline.variable} ${processLabel.variable} ${bodyInter.variable} ${displayAlumni.variable} dark antialiased shadow-2xl`}
     >
       <body className="min-h-screen flex flex-col bg-vs-background text-vs-foreground overflow-x-hidden selection:bg-white selection:text-black">
         <LenisProvider>
+          <CustomCursor />
           <Navigation />
           <main className="flex-grow pt-[100px]">
              {children}

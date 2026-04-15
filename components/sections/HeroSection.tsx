@@ -1,87 +1,34 @@
-"use client";
+'use client'
 
-import { useRef } from "react";
-import { gsap } from "@/lib/gsap";
-import { useGSAP } from "@gsap/react";
-import { RevealText } from "../ui/RevealText";
+import { FloatingIconsHero, type IconProps } from "@/components/ui/floating-icons-hero-section";
+
+const demoIcons: IconProps[] = [
+  // Total 16 unique icons based on public/assets/tech-icons
+  { id: 1, imageUrl: "REACT.png", alt: "React", className: "top-[10%] left-[10%]" },
+  { id: 2, imageUrl: "NODE JS.png", alt: "Node.js", className: "top-[20%] right-[8%]" },
+  { id: 3, imageUrl: "TYPESCRIPT.png", alt: "TypeScript", className: "top-[80%] left-[10%]" },
+  { id: 4, imageUrl: "MONGO DB.png", alt: "MongoDB", className: "bottom-[10%] right-[10%]" },
+  { id: 5, imageUrl: "JAVASCRIPT.png", alt: "JavaScript", className: "top-[5%] left-[30%]" },
+  { id: 6, imageUrl: "HTML5.png", alt: "HTML5", className: "top-[5%] right-[30%]" },
+  { id: 7, imageUrl: "TAILWIND.png", alt: "Tailwind CSS", className: "bottom-[8%] left-[25%]" },
+  { id: 8, imageUrl: "BOOTSTRAP.png", alt: "Bootstrap", className: "top-[40%] left-[15%]" },
+  { id: 9, imageUrl: "GITHUB.png", alt: "GitHub", className: "top-[75%] right-[25%]" },
+  { id: 10, imageUrl: "GIT.png", alt: "Git", className: "top-[90%] left-[70%]" },
+  { id: 11, imageUrl: "PYTHON.png", alt: "Python", className: "top-[50%] right-[5%]" },
+  { id: 12, imageUrl: "PHP.png", alt: "PHP", className: "top-[55%] left-[5%]" },
+  { id: 13, imageUrl: "SHOPIFY.png", alt: "Shopify", className: "top-[5%] left-[55%]" },
+  { id: 14, imageUrl: "WORDPRESS.png", alt: "WordPress", className: "bottom-[5%] right-[45%]" },
+  { id: 15, imageUrl: "JAVA.png", alt: "Java", className: "top-[25%] right-[20%]" },
+  { id: 16, imageUrl: "REDIS.png", alt: "Redis", className: "top-[60%] left-[30%]" },
+];
 
 export function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      gsap.fromTo(
-        ".hero-line",
-        { yPercent: 100, opacity: 0 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 1.5,
-          ease: "expo.out",
-          delay: 0.5,
-        },
-      );
-
-      gsap.fromTo(
-        ".hero-stat",
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1,
-          scale: 1,
-          stagger: 0.1,
-          duration: 1,
-          ease: "back.out(1.7)",
-          delay: 1.2,
-        },
-      );
-    },
-    { scope: containerRef },
-  );
-
   return (
-    <section
-      ref={containerRef}
-      className="min-h-[85vh] flex flex-col justify-end px-8 pb-20 mt-12 md:mt-24 max-w-[1400px] mx-auto"
-    >
-      <h1 className="text-[15vw] md:text-[18vw] font-black uppercase mb-4 font-headline leading-[0.85] tracking-tighter">
-        <div className="overflow-hidden">
-          <div className="hero-line">VISHAL</div>
-        </div>
-        <div className="overflow-hidden">
-          <div className="hero-line">SINGH</div>
-        </div>
-      </h1>
-
-      <div className="flex flex-col md:flex-row justify-between items-end gap-8 mt-12">
-        <RevealText delay={1} className="max-w-xl">
-          <p className="font-headline text-xl md:text-2xl uppercase tracking-widest text-white/80">
-            Full Stack Web Developer (MERN), UI/UX Designer, Shopify & WordPress
-            Specialist with 8+ years of experience.
-          </p>
-        </RevealText>
-
-        <div className="flex gap-12 pt-8 md:pt-0">
-          <div className="hero-stat flex flex-col">
-            <span className="text-4xl font-bold font-headline">8+</span>
-            <span className="font-label text-[10px] uppercase tracking-[0.2em] text-white/40">
-              Years Exp
-            </span>
-          </div>
-          <div className="hero-stat flex flex-col">
-            <span className="text-4xl font-bold font-headline">55+</span>
-            <span className="font-label text-[10px] uppercase tracking-[0.2em] text-white/40">
-              Websites
-            </span>
-          </div>
-          <div className="hero-stat flex flex-col">
-            <span className="text-4xl font-bold font-headline">25+</span>
-            <span className="font-label text-[10px] uppercase tracking-[0.2em] text-white/40">
-              Clients
-            </span>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+    <FloatingIconsHero
+      title="Vishal Singh"
+      subtitle="Full Stack Web Developer • UI/UX Designer • 8+ Years Experience"
+      icons={demoIcons}
+      className="bg-black"
+    />
+  )
 }

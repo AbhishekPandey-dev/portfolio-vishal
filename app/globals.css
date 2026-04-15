@@ -56,20 +56,26 @@ body {
   cursor: crosshair; /* Retained from the stitch design */
 }
 
+
 /* Custom Utilities for massive strokes from Stitch */
-@utility massive-stroke {
-  -webkit-text-stroke: 1px rgba(255,255,255,0.1);
-  color: transparent;
-}
-@utility text-stroke {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-  color: transparent;
-}
-@utility hide-scrollbar {
-  &::-webkit-scrollbar {
-    display: none;
+@layer utilities {
+  .massive-stroke {
+    -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+    color: transparent;
+  }
+  .text-stroke {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+  }
+  .hide-scrollbar {
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
+
+
+/* Lenis smooth scrolling defaults */
 
 /* Lenis smooth scrolling defaults */
 html.lenis {
