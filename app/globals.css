@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
+@theme {
+  --color-vs-background: #000000;
+  --color-vs-foreground: #FFFFFF;
+  --color-vs-surface: #131313;
+  --color-vs-container: #0E0E0E;
+  --color-vs-outline: #444748;
+
+  --font-headline: var(--font-headline), sans-serif;
+  --font-body: var(--font-body), sans-serif;
+  --font-display: var(--font-display), sans-serif;
+  --font-label: var(--font-label), sans-serif;
+
+  /* Font sizes mapping */
+  --text-hero: clamp(3rem, 12vw, 16rem);
+  --text-hero--line-height: 0.85;
+  --text-hero--letter-spacing: -0.05em;
+
+  --text-huge: clamp(3rem, 12vw, 16rem);
+  --text-huge--line-height: 0.85;
+  --text-huge--letter-spacing: 0;
+
+  --text-display-xl: clamp(3.5rem, 8vw, 7rem);
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -0.03em;
+
+  --text-display-lg: clamp(2.5rem, 5vw, 4.5rem);
+  --text-display-lg--line-height: 1.0;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-display-md: clamp(1.75rem, 3vw, 2.5rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.01em;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.3em;
+
+  /* Transitions */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-expo-inout: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-cinematic: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+  cursor: crosshair; /* Retained from the stitch design */
+}
+
+/* Custom Utilities for massive strokes from Stitch */
+@utility massive-stroke {
+  -webkit-text-stroke: 1px rgba(255,255,255,0.1);
+  color: transparent;
+}
+@utility text-stroke {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  color: transparent;
+}
+@utility hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Lenis smooth scrolling defaults */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
