@@ -44,10 +44,13 @@ export function Navigation() {
       ref={navRef}
       className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl flex justify-between items-center px-8 py-6 max-w-full mx-auto transition-all duration-300"
     >
-      <Link href="/" className="text-2xl font-black tracking-tighter text-white font-headline hover:opacity-70 transition-opacity">
+      <Link
+        href="/"
+        className="text-2xl font-black tracking-tighter text-white font-headline hover:opacity-70 transition-opacity"
+      >
         VISHAL SINGH
       </Link>
-      
+
       <div className="hidden md:flex gap-10">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
@@ -73,7 +76,21 @@ export function Navigation() {
 
       {/* Mobile Menu Icon (simplified) */}
       <button className="md:hidden text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <line x1="4" x2="20" y1="12" y2="12" />
+          <line x1="4" x2="20" y1="6" y2="6" />
+          <line x1="4" x2="20" y1="18" y2="18" />
+        </svg>
       </button>
     </nav>
   );
