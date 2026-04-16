@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
 
-import { GooeyText } from './gooey-text-morphing';
+
 
 // Interface for the props of each individual icon, adapted for Next/Image and PNGs
 export interface IconProps {
@@ -172,15 +172,24 @@ const FloatingIconsHero = React.forwardRef<
           ))}
         </h1>
         <div className="mt-12 flex justify-center pointer-events-auto">
-          {Array.isArray(subtitle) ? (
-            <div className="w-full max-w-xl">
-               <GooeyText texts={subtitle} />
-            </div>
-          ) : (
-            <p className="max-w-xl font-headline uppercase tracking-[0.3em] text-white text-xs md:text-sm font-bold bg-white/5 backdrop-blur-md border border-white/10 px-6 py-3">
-              {subtitle}
-            </p>
-          )}
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 max-w-4xl px-4 text-center">
+            {Array.isArray(subtitle) ? (
+              subtitle.map((item, i) => (
+                <React.Fragment key={i}>
+                  <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold whitespace-nowrap">
+                    {item}
+                  </span>
+                  {i < subtitle.length - 1 && (
+                    <span className="text-white/20 text-base hidden md:inline">•</span>
+                  )}
+                </React.Fragment>
+              ))
+            ) : (
+              <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold">
+                {subtitle}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </section>
