@@ -1,12 +1,10 @@
 "use client";
 
-import * as React from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
-import Image from 'next/image';
-
-
+import * as React from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { ScrollIndicator } from "@/components/ui/ScrollIndicator";
+import Image from "next/image";
 
 // Interface for the props of each individual icon, adapted for Next/Image and PNGs
 export interface IconProps {
@@ -52,14 +50,14 @@ const Icon = ({
         const rect = ref.current.getBoundingClientRect();
         const distance = Math.sqrt(
           Math.pow(mouseX.current - (rect.left + rect.width / 2), 2) +
-            Math.pow(mouseY.current - (rect.top + rect.height / 2), 2)
+            Math.pow(mouseY.current - (rect.top + rect.height / 2), 2),
         );
 
         // If the cursor is close enough, repel the icon
         if (distance < 150) {
           const angle = Math.atan2(
             mouseY.current - (rect.top + rect.height / 2),
-            mouseX.current - (rect.left + rect.width / 2)
+            mouseX.current - (rect.left + rect.width / 2),
           );
           // The closer the cursor, the stronger the repulsion
           const force = (1 - distance / 150) * 50;
@@ -73,8 +71,8 @@ const Icon = ({
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [x, y, mouseX, mouseY]);
 
   return (
@@ -92,7 +90,7 @@ const Icon = ({
         duration: 0.6,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={cn('absolute', iconData.className)}
+      className={cn("absolute", iconData.className)}
     >
       {/* Inner wrapper for the continuous floating animation */}
       <motion.div
@@ -105,17 +103,17 @@ const Icon = ({
         transition={{
           duration: 5 + Math.random() * 5,
           repeat: Infinity,
-          repeatType: 'mirror',
-          ease: 'easeInOut',
+          repeatType: "mirror",
+          ease: "easeInOut",
         }}
       >
         <div className="relative w-full h-full opacity-100">
-           <Image
-             src={`/assets/tech-icons/${iconData.imageUrl}`}
-             alt={iconData.alt}
-             fill
-             className="object-contain"
-           />
+          <Image
+            src={`/assets/tech-icons/${iconData.imageUrl}`}
+            alt={iconData.alt}
+            fill
+            className="object-contain"
+          />
         </div>
       </motion.div>
     </motion.div>
@@ -146,8 +144,8 @@ const FloatingIconsHero = React.forwardRef<
       ref={ref}
       onMouseMove={handleMouseMove}
       className={cn(
-        'relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-background py-20',
-        className
+        "relative w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-background py-20",
+        className,
       )}
       {...props}
     >
@@ -167,12 +165,12 @@ const FloatingIconsHero = React.forwardRef<
       {/* Container for the foreground content */}
       <div className="relative z-10 text-center px-4 md:px-0 pointer-events-none">
         <h1 className="text-[12vw] md:text-[14vw] leading-[0.85] font-black uppercase tracking-tighter text-white font-headline flex flex-col items-center">
-          {!mounted ? title : title.split(" ").map((word, i) => (
-            <span key={i}>{word}</span>
-          ))}
+          {!mounted
+            ? title
+            : title.split(" ").map((word, i) => <span key={i}>{word}</span>)}
         </h1>
         <div className="mt-6 flex justify-center pointer-events-auto">
-          {typeof subtitle === 'string' || Array.isArray(subtitle) ? (
+          {typeof subtitle === "string" || Array.isArray(subtitle) ? (
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 max-w-4xl px-4 text-center">
               {Array.isArray(subtitle) ? (
                 subtitle.map((item, i) => (
@@ -181,7 +179,9 @@ const FloatingIconsHero = React.forwardRef<
                       {item}
                     </span>
                     {i < subtitle.length - 1 && (
-                      <span className="text-white/20 text-base hidden md:inline">•</span>
+                      <span className="text-white/20 text-base hidden md:inline">
+                        •
+                      </span>
                     )}
                   </React.Fragment>
                 ))
@@ -198,11 +198,13 @@ const FloatingIconsHero = React.forwardRef<
           )}
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <ScrollIndicator />
     </section>
   );
-}
-);
+});
 
-FloatingIconsHero.displayName = 'FloatingIconsHero';
+FloatingIconsHero.displayName = "FloatingIconsHero";
 
 export { FloatingIconsHero };

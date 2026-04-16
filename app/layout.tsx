@@ -49,7 +49,7 @@ export default function RootLayout({
         <LenisProvider>
           <CustomCursor />
           <Navigation />
-          <main className="flex-grow pt-[100px]">
+          <main className="flex-grow">
              {children}
           </main>
           <Footer />
