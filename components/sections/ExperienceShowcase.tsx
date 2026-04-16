@@ -6,6 +6,7 @@ import { CLIENT_BRANDS } from "@/lib/constants";
 import { EASING, DURATION } from "@/lib/animation-config";
 import Image from "next/image";
 import { useState, useRef, useMemo } from "react";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const BRAND_IMAGE_MAP: Record<string, string> = {
   "Nappa Dori": "/images/mobile-img/nappadori.png",
@@ -185,9 +186,7 @@ export function ExperienceShowcase() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
           <div>
-            <span className="font-label uppercase tracking-[0.4em] text-[10px] text-vs-accent block mb-4">
-              EXPERIENCE INDEX
-            </span>
+            <SectionLabel className="mb-6">EXPERIENCE INDEX</SectionLabel>
             <h2 className="text-display-md md:text-display-lg font-headline font-black text-white leading-none tracking-tighter">
               BEYOND <br /> <span className="text-vs-accent">BOUNDARIES</span>
             </h2>
