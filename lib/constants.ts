@@ -20,23 +20,8 @@ export interface ProjectData {
   metrics?: string;
 }
 
-// 3 flagship projects for the homepage Selected Work section
+// 4 flagship projects for the homepage — VIDEO ONLY for maximum cinematic impact
 export const SELECTED_PROJECTS: ProjectData[] = [
-  {
-    title: "Nappa Dori",
-    url: "https://www.nappadori.com/",
-    displayUrl: "www.nappadori.com",
-    tags: "UI/UX Design | Shopify | GSAP | React | Photoswipe",
-    categories: ["Shopify", "UI/UX Design", "E-Commerce"],
-    media: {
-      type: "image",
-      src: "/images/nappadori.png",
-      mobileSrc: "/images/mobile-img/nappadori.png",
-    },
-    description:
-      "Designed and developed a premium e-commerce experience for India's leading luxury leather brand. Custom product pages, immersive galleries, and a conversion-focused checkout flow.",
-    metrics: "40% faster page loads · 2x engagement",
-  },
   {
     title: "Swiss Beauty",
     url: "https://swissbeauty.in/",
@@ -50,23 +35,56 @@ export const SELECTED_PROJECTS: ProjectData[] = [
       mobileSrc: "/images/mobile-img/swissbeauty.png",
     },
     description:
-      "Built a high-performance beauty e-commerce platform with immersive product showcases, virtual try-on integration, and a seamless mobile shopping experience.",
+      "High-performance beauty e-commerce with immersive product showcases, custom animations, and a seamless mobile shopping experience trusted by 500K+ monthly users.",
     metrics: "500K+ monthly users · 35% conversion lift",
   },
   {
-    title: "Transform Health",
-    url: "https://transformhealthcoalition.org/",
-    displayUrl: "www.transformhealthcoalition.org",
-    tags: "Wordpress | UI/UX Design | GSAP | MySQL | Cloudflare",
-    categories: ["WordPress", "UI/UX Design"],
+    title: "Shivan & Narresh",
+    url: "https://www.shivanandnarresh.com/",
+    displayUrl: "www.shivanandnarresh.com",
+    tags: "Shopify | jQuery | AWS | Cloudflare | Klaviyo",
+    categories: ["Shopify", "E-Commerce", "UI/UX Design"],
     media: {
-      type: "image",
-      src: "/images/transformhealth.png",
-      mobileSrc: "/images/mobile-img/transformhealth.png",
+      type: "video",
+      webm: "/images/shivanandnarresh.webm",
+      mp4: "/images/shivanandnarresh.mp4",
+      mobileSrc: "/images/mobile-img/shivanandnarresh.png",
     },
     description:
-      "Crafted an impactful digital presence for a global health coalition. Rich data visualizations, animated infographics, and an accessible design system serving diverse audiences.",
-    metrics: "3x organic traffic growth · WCAG AA compliant",
+      "A luxurious digital flagship for India's premier resort wear brand. Editorial layouts, fluid storytelling, and a bespoke checkout journey that mirrors haute couture.",
+    metrics: "Luxury Segment · 2x AOV increase",
+  },
+  {
+    title: "Outhouse Jewellery",
+    url: "https://outhouse-jewellery.com/",
+    displayUrl: "www.outhouse-jewellery.com",
+    tags: "Shopify | BugSnag | React | Google Ads | Preact | Swiper | Custom CMS",
+    categories: ["Shopify", "E-Commerce", "UI/UX Design"],
+    media: {
+      type: "video",
+      webm: "/images/outhousejewellery.webm",
+      mp4: "/images/outhousejewellery.mp4",
+      mobileSrc: "/images/mobile-img/outhouse.png",
+    },
+    description:
+      "Redefined online jewellery retail with a bespoke Shopify storefront, custom CMS, and cinematic product presentations for one of India's most coveted accessories brands.",
+    metrics: "Premium Retail · 60% mobile revenue",
+  },
+  {
+    title: "Cord Studio",
+    url: "https://www.cordstudio.in/",
+    displayUrl: "www.cordstudio.in",
+    tags: "Shopify | GSAP | Svelte | Preact | PhotoSwipe",
+    categories: ["Shopify", "UI/UX Design", "E-Commerce"],
+    media: {
+      type: "video",
+      webm: "/images/cordstudio.webm",
+      mp4: "/images/cordstudio.mp4",
+      mobileSrc: "/images/mobile-img/cordstudio.png",
+    },
+    description:
+      "A contemporary Shopify store for a modern lifestyle brand — GSAP-powered transitions, PhotoSwipe galleries, and performance-first architecture for a silky-smooth UX.",
+    metrics: "Core Web Vitals A+ · 50% load time reduction",
   },
 ];
 
