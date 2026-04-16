@@ -27,6 +27,18 @@ export function Navigation() {
           toggleActions: "play none none reverse",
         },
       });
+
+      // Hide nav when footer is in view
+      gsap.to(nav, {
+        yPercent: -100,
+        opacity: 0,
+        scrollTrigger: {
+          trigger: "#footer",
+          start: "top 10%",
+          end: "bottom bottom",
+          toggleActions: "play none none reverse",
+        },
+      });
     }, nav);
 
     return () => ctx.revert();

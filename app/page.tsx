@@ -8,7 +8,6 @@ import { SelectedWork } from "@/components/sections/SelectedWork";
 import { WhatIDo } from "@/components/sections/WhatIDo";
 import { ByTheNumbers } from "@/components/sections/ByTheNumbers";
 import { ExperienceShowcase } from "@/components/sections/ExperienceShowcase";
-import { CTASection } from "@/components/sections/CTASection";
 
 const demoIcons: IconProps[] = [
   // Top Outer Ring
@@ -151,9 +150,6 @@ export default function Home() {
 
       {/* Section 6: Experience & Clients */}
       <ExperienceShowcase />
-
-      {/* Section 7: CTA — Let's Build Together */}
-      <CTASection />
     </>
   );
 }
