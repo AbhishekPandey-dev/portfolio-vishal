@@ -57,7 +57,7 @@ export function Footer() {
         initial={{ opacity: 0, y: -20 }}
         animate={hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: DURATION.normal, ease: EASING.expoOut }}
-        className="relative z-10 w-full flex flex-col md:flex-row gap-6 md:gap-0 justify-between items-start text-[10px] md:text-11px tracking-[0.2em]"
+        className="relative z-10 w-full flex flex-col md:flex-row gap-6 md:gap-0 justify-between items-start text-xs md:text-sm font-headline font-bold uppercase tracking-[0.2em]"
       >
         <div className="flex gap-4 items-center">
           <span className="text-white/70">VISHALSINGH_IND</span>

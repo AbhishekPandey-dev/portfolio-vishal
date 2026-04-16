@@ -68,7 +68,7 @@ export function Navigation() {
             <div className="pointer-events-auto">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white text-sm font-label uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
+                className="text-white text-base font-headline font-bold uppercase tracking-[0.2em] hover:opacity-70 transition-opacity"
               >
                 {isOpen ? "CLOSE" : "MENU"}
               </button>
@@ -85,8 +85,32 @@ export function Navigation() {
             animate={{ y: "0%" }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[50] bg-[#050505] text-white px-6 py-6 md:px-12 flex flex-col"
+            className="fixed inset-0 z-[50] bg-[#050505] text-white px-6 py-6 md:px-12 flex flex-col overflow-hidden"
           >
+            {/* Animated Grid Background */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 0.15,
+                backgroundPosition: ["0px 0px", "60px 60px"]
+              }}
+              className="absolute inset-0 pointer-events-none z-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
+                `,
+                backgroundSize: "60px 60px",
+              }}
+              transition={{
+                opacity: { duration: 1, delay: 0.5 },
+                backgroundPosition: { duration: 10, repeat: Infinity, ease: "linear" }
+              }}
+            />
+
+            {/* Glowing Vignette */}
+            <div className="absolute inset-0 pointer-events-none z-0 bg-radial-gradient from-transparent via-transparent to-black" />
+
             {/* Visual Gimmick Feature - floating showcase (desktop only) */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 hidden lg:flex items-center gap-6 opacity-30 select-none">
               <span className="text-[15vw] font-serif italic text-white font-light">
