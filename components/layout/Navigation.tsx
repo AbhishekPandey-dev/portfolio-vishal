@@ -17,12 +17,12 @@ export function Navigation() {
 
     const ctx = gsap.context(() => {
       gsap.to(nav, {
-        paddingTop: "1rem",
-        paddingBottom: "1rem",
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
+        paddingTop: "0.5rem",
+        paddingBottom: "0.5rem",
+        background: "rgba(0, 0, 0, 0.95)",
         scrollTrigger: {
           trigger: "body",
-          start: "top -50",
+          start: "top 10",
           end: "top -100",
           toggleActions: "play none none reverse",
         },
@@ -43,7 +43,7 @@ export function Navigation() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl flex justify-between items-center px-8 py-6 max-w-full mx-auto transition-all duration-300 pointer-events-none"
+      className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-0 flex justify-between items-center px-8 py-6 max-w-full mx-auto transition-all duration-300 pointer-events-none"
     >
       <div className="pointer-events-auto">
         <Magnetic>
