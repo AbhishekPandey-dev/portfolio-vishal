@@ -2,6 +2,7 @@ import {
   FloatingIconsHero,
   type IconProps,
 } from "@/components/ui/floating-icons-hero-section";
+import ShinyText from "@/components/ui/ShinyText";
 
 const demoIcons: IconProps[] = [
   // Top Outer Ring
@@ -33,11 +34,17 @@ export default function Home() {
   return (
     <FloatingIconsHero
       title="Vishal Singh"
-      subtitle={[
-        "Full Stack Web Developer",
-        "UI/UX Designer",
-        "8+ Years Experience",
-      ]}
+      subtitle={
+        <ShinyText 
+          text="Full Stack Web Developer | UI/UX Designer | 8+ Years Experience" 
+          disabled={false}
+          speed={3}
+          delay={2}
+          spread={45}
+          className="text-2xl font-black tracking-tighter font-headline transition-opacity block"
+          color="#a1a1a1"
+        />
+      }
       icons={demoIcons}
       className="bg-black"
     />

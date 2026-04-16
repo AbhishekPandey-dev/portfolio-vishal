@@ -19,7 +19,7 @@ export interface IconProps {
 // Interface for the main hero component's props.
 export interface FloatingIconsHeroProps {
   title: string;
-  subtitle: string | string[];
+  subtitle: string | string[] | React.ReactNode;
   ctaText?: string;
   ctaHref?: string;
   icons: IconProps[];
@@ -171,25 +171,31 @@ const FloatingIconsHero = React.forwardRef<
             <span key={i}>{word}</span>
           ))}
         </h1>
-        <div className="mt-12 flex justify-center pointer-events-auto">
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 max-w-4xl px-4 text-center">
-            {Array.isArray(subtitle) ? (
-              subtitle.map((item, i) => (
-                <React.Fragment key={i}>
-                  <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold whitespace-nowrap">
-                    {item}
-                  </span>
-                  {i < subtitle.length - 1 && (
-                    <span className="text-white/20 text-base hidden md:inline">•</span>
-                  )}
-                </React.Fragment>
-              ))
-            ) : (
-              <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold">
-                {subtitle}
-              </span>
-            )}
-          </div>
+        <div className="mt-6 flex justify-center pointer-events-auto">
+          {typeof subtitle === 'string' || Array.isArray(subtitle) ? (
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 max-w-4xl px-4 text-center">
+              {Array.isArray(subtitle) ? (
+                subtitle.map((item, i) => (
+                  <React.Fragment key={i}>
+                    <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold whitespace-nowrap">
+                      {item}
+                    </span>
+                    {i < subtitle.length - 1 && (
+                      <span className="text-white/20 text-base hidden md:inline">•</span>
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <span className="font-headline uppercase tracking-[0.2em] text-white/80 text-sm md:text-base font-bold">
+                  {subtitle}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className="font-headline uppercase tracking-[0.2em] text-sm md:text-base font-bold">
+              {subtitle}
+            </div>
+          )}
         </div>
       </div>
     </section>
