@@ -282,6 +282,10 @@ export const CLIENT_BRANDS = [
   "Chashma",
   "OnCloud9",
   "Lily Ann Cabinets",
+  "Transform Health",
+  "Shaz & Kiks",
+  "Ava Cabinetry",
+  "Idus",
 ];
 
 export const SOCIAL_LINKS = [
