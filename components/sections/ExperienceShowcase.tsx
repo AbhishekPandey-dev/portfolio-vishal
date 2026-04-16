@@ -5,7 +5,7 @@ import { useInViewport } from "@/hooks/use-in-viewport";
 import { CLIENT_BRANDS } from "@/lib/constants";
 import { EASING, DURATION } from "@/lib/animation-config";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useMemo } from "react";
 
 const BRAND_IMAGE_MAP: Record<string, string> = {
   "Nappa Dori": "/images/mobile-img/nappadori.png",
@@ -28,31 +28,69 @@ const BRAND_IMAGE_MAP: Record<string, string> = {
   "Idus": "/images/mobile-img/idus.png",
 };
 
+interface MarqueeRowProps {
+  items: string[];
+  direction: "left" | "right";
+  onHover: (brand: string | null) => void;
+}
+
+function MarqueeRow({ items, direction, onHover }: MarqueeRowProps) {
+  const scrollValue = direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"];
+
+  return (
+    <div className="relative flex overflow-hidden whitespace-nowrap border-y border-white/5 py-8 md:py-12 group/row select-none">
+      <motion.div
+        animate={{ x: scrollValue }}
+        transition={{
+          duration: 80, // Slower, highly elegant crawl
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="flex gap-12 md:gap-24 px-6 md:px-12 items-center"
+      >
+        {/* Double items for seamless loop */}
+        {[...items, ...items].map((brand, i) => (
+          <div
+            key={`${brand}-${i}`}
+            onMouseEnter={() => onHover(brand)}
+            onMouseLeave={() => onHover(null)}
+            className="group/item flex items-center gap-4 cursor-none"
+          >
+            <span className="text-display-md md:text-display-xl font-headline font-black uppercase tracking-tighter transition-all duration-500 text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.15)] group-hover/item:text-white group-hover/item:[-webkit-text-stroke:1px_white] group-hover/row:opacity-30 group-hover/item:!opacity-100">
+              {brand}
+            </span>
+            <span className="w-2 h-2 rounded-full bg-vs-accent/20" />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export function ExperienceShowcase() {
   const { ref, hasBeenInView } = useInViewport<HTMLElement>({
-    threshold: 0.2,
+    threshold: 0.1,
     once: true,
   });
 
   const [activeBrand, setActiveBrand] = useState<string | null>(null);
-  const containerRef = useRef<HTMLElement>(null);
 
   // Mouse tracking
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const mouseRotate = useMotionValue(0);
 
   // Spring physics for "following" feel
   const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
   const springX = useSpring(mouseX, springConfig);
   const springY = useSpring(mouseY, springConfig);
+  const springRotate = useSpring(mouseRotate, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
-    // Calculate rotation based on cursor position relative to center of the image box
     const rotate = (x - mouseX.get()) * 0.1;
     
     mouseX.set(x);
@@ -60,28 +98,36 @@ export function ExperienceShowcase() {
     mouseRotate.set(rotate);
   };
 
-  const mouseRotate = useMotionValue(0);
-  const springRotate = useSpring(mouseRotate, springConfig);
+  // Split brands into two rows
+  const row1 = useMemo(() => CLIENT_BRANDS.slice(0, Math.ceil(CLIENT_BRANDS.length / 2)), []);
+  const row2 = useMemo(() => CLIENT_BRANDS.slice(Math.ceil(CLIENT_BRANDS.length / 2)), []);
 
   return (
     <section
       ref={ref}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-20 py-24 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center py-24 md:py-32 overflow-hidden bg-vs-surface"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-vs-surface" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,217,255,0.03)_0%,_transparent_60%)]" />
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,217,255,0.03)_0%,_transparent_60%)] pointer-events-none" />
+      
+      {/* Ambient Dimming Overlay (Triggers on Hover) */}
+      <div 
+        className={`absolute inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-all duration-700 pointer-events-none ${
+          activeBrand ? "opacity-100" : "opacity-0"
+        }`} 
+      />
 
       {/* Floating Image Reveal (Desktop Only) */}
-      <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
-        <AnimatePresence>
+      <div className="absolute inset-0 z-50 pointer-events-none hidden lg:block">
+        <AnimatePresence mode="wait">
           {activeBrand && BRAND_IMAGE_MAP[activeBrand] && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+              key={activeBrand}
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.5, rotate: 10 }}
-              transition={{ duration: 0.4, ease: EASING.expoOut }}
+              exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+              transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
               style={{
                 left: springX,
                 top: springY,
@@ -89,74 +135,73 @@ export function ExperienceShowcase() {
                 x: "-50%",
                 y: "-50%",
               }}
-              className="absolute w-64 aspect-[4/5] overflow-hidden rounded-lg shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/10"
+              className="absolute w-[320px] aspect-[16/10] overflow-hidden rounded-sm shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-black z-50"
             >
               <Image
                 src={BRAND_IMAGE_MAP[activeBrand]}
                 alt={activeBrand}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] scale-110 hover:scale-100"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              
+              {/* Premium Corner Accents */}
+              <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-white/40" />
+              <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-white/40" />
+              <div className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-white/40" />
+              <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-white/40" />
+
+              {/* Data Overlay */}
+              <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-label text-[10px] tracking-widest text-white uppercase overflow-hidden">
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1, duration: 0.4 }}
+                  className="font-bold text-white/90"
+                >
+                  {activeBrand}
+                </motion.div>
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.15, duration: 0.4 }}
+                  className="text-vs-accent"
+                >
+                  [ VIEW ]
+                </motion.div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex flex-col items-center">
-        {/* Central quote */}
+      {/* Editorial Header */}
+      <div className="relative z-10 px-6 md:px-12 lg:px-20 mb-16 md:mb-24">
         <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={
-            hasBeenInView
-              ? { opacity: 1, scale: 1 }
-              : { opacity: 0, scale: 0.92 }
-          }
-          transition={{
-            duration: DURATION.slow,
-            ease: EASING.expoOut,
-          }}
-          className="text-center mb-20"
+          initial={{ opacity: 0, x: -20 }}
+          animate={hasBeenInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+          transition={{ duration: DURATION.normal, ease: EASING.expoOut }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <span className="font-label uppercase tracking-[0.3em] text-[11px] text-vs-accent block mb-6">
-            TRUSTED BY
-          </span>
-          <h2 className="text-display-lg font-headline font-bold text-white tracking-tight max-w-[700px]">
-            I help brands and businesses{" "}
-            <span className="text-vs-accent">move faster</span>
-          </h2>
-          <p className="mt-6 text-vs-text-secondary text-base md:text-lg font-body max-w-[500px] mx-auto">
-            Through design and code, anything is possible.
+          <div>
+            <span className="font-label uppercase tracking-[0.4em] text-[10px] text-vs-accent block mb-4">
+              EXPERIENCE INDEX
+            </span>
+            <h2 className="text-display-md md:text-display-lg font-headline font-black text-white leading-none tracking-tighter">
+              BEYOND <br /> <span className="text-vs-accent">BOUNDARIES</span>
+            </h2>
+          </div>
+          <p className="max-w-[400px] text-vs-text-secondary text-sm md:text-base font-body opacity-60">
+            Partnering with visionary brands to redefine digital structural honesty and cinematic experiences.
           </p>
         </motion.div>
+      </div>
 
-        {/* Client brands grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 w-full mb-16 relative z-30">
-          {CLIENT_BRANDS.map((brand, index) => (
-            <motion.div
-              key={brand}
-              initial={{ opacity: 0, y: 20 }}
-              animate={
-                hasBeenInView
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 20 }
-              }
-              transition={{
-                duration: DURATION.normal,
-                ease: EASING.expoOut,
-                delay: index * 0.05,
-              }}
-              onMouseEnter={() => setActiveBrand(brand)}
-              onMouseLeave={() => setActiveBrand(null)}
-              className="flex items-center justify-center py-8 px-4 rounded-sm border border-white/[0.06] bg-white/[0.02] hover:border-vs-accent hover:bg-white/[0.05] transition-all duration-300 group cursor-none md:cursor-pointer"
-            >
-              <span className="font-headline text-xs md:text-sm font-medium tracking-widest uppercase text-white/30 group-hover:text-vs-accent transition-colors duration-300 text-center">
-                {brand}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+      {/* Kinetic Marquee Rows */}
+      <div className="relative z-10 flex flex-col w-screen">
+        <MarqueeRow items={row1} direction="left" onHover={setActiveBrand} />
+        <MarqueeRow items={row2} direction="right" onHover={setActiveBrand} />
       </div>
     </section>
   );
