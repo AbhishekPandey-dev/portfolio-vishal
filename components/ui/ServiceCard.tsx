@@ -1,7 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Zap, ShoppingBag, Gauge, Palette, type LucideIcon } from "lucide-react";
+import {
+  Zap,
+  ShoppingBag,
+  Gauge,
+  Palette,
+  type LucideIcon,
+} from "lucide-react";
 import { EASING, DURATION, STAGGER } from "@/lib/animation-config";
 
 const ICON_MAP: Record<string, LucideIcon> = {

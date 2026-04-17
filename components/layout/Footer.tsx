@@ -60,8 +60,12 @@ export function Footer() {
         className="relative z-10 w-full flex flex-col md:flex-row gap-6 md:gap-0 justify-between items-start text-xs md:text-sm font-headline font-bold uppercase tracking-[0.2em]"
       >
         <div className="flex gap-4 items-center">
-          <span className="text-white/70">VISHALSINGH_IND</span>
-          <span>{time}</span>
+          <Link 
+            href="/" 
+            className="text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            VISHAL_SINGH
+          </Link>
         </div>
 
         <nav>
