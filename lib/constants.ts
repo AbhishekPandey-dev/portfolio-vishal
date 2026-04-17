@@ -286,31 +286,24 @@ export const STATS: StatItem[] = [
 
 // Client brands for the experience showcase
 export const CLIENT_BRANDS = [
-  "Nappa Dori",
-  "Swiss Beauty",
-  "Shivan & Narresh",
-  "Outhouse Jewellery",
-  "Orange Tree",
+  "Idus",
   "Perona",
-  "Manan Design",
-  "Jan & April",
-  "Cord Studio",
-  "Artisan Lab",
   "Janavi",
   "Chashma",
   "OnCloud9",
-  "Lily Ann Cabinets",
-  "Transform Health",
-  "Shaz & Kiks",
+  "Nappa Dori",
+  "Orange Tree",
+  "Artisan Lab",
+  "Manan Design",
+  "Cord Studio",
+  "Jan & April",
+  "Swiss Beauty",
   "Ava Cabinetry",
-  "Idus",
-];
-
-export const SOCIAL_LINKS = [
-  { label: "GitHub", href: "https://github.com/vishalsingh" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/vishalsingh" },
-  { label: "Twitter", href: "https://twitter.com/vishalsingh" },
-  { label: "Instagram", href: "https://instagram.com/vishalsingh" },
+  "Shaz & Kiks",
+  "Outhouse Jewellery",
+  "Transform Health",
+  "Shivan & Narresh",
+  "Lily Ann Cabinets"
 ];
 
 export const NAV_LINKS = [

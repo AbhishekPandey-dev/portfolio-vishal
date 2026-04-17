@@ -5,8 +5,9 @@ import { useInViewport } from "@/hooks/use-in-viewport";
 import { CLIENT_BRANDS } from "@/lib/constants";
 import { EASING, DURATION } from "@/lib/animation-config";
 import Image from "next/image";
-import { useState, useRef, useMemo } from "react";
+import { useState } from "react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { LayeredText } from "@/components/ui/layered-text";
 
 const BRAND_IMAGE_MAP: Record<string, string> = {
   "Nappa Dori": "/images/mobile-img/nappadori.png",
@@ -28,45 +29,6 @@ const BRAND_IMAGE_MAP: Record<string, string> = {
   "Ava Cabinetry": "/images/mobile-img/avacabinetry.png",
   "Idus": "/images/mobile-img/idus.png",
 };
-
-interface MarqueeRowProps {
-  items: string[];
-  direction: "left" | "right";
-  onHover: (brand: string | null) => void;
-}
-
-function MarqueeRow({ items, direction, onHover }: MarqueeRowProps) {
-  const scrollValue = direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"];
-
-  return (
-    <div className="relative flex overflow-hidden whitespace-nowrap border-y border-white/5 py-8 md:py-12 group/row select-none">
-      <motion.div
-        animate={{ x: scrollValue }}
-        transition={{
-          duration: 80, // Slower, highly elegant crawl
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="flex gap-12 md:gap-24 px-6 md:px-12 items-center"
-      >
-        {/* Double items for seamless loop */}
-        {[...items, ...items].map((brand, i) => (
-          <div
-            key={`${brand}-${i}`}
-            onMouseEnter={() => onHover(brand)}
-            onMouseLeave={() => onHover(null)}
-            className="group/item flex items-center gap-4 cursor-none"
-          >
-            <span className="text-display-md md:text-display-xl font-headline font-black uppercase tracking-tighter transition-all duration-500 text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.15)] group-hover/item:text-white group-hover/item:[-webkit-text-stroke:1px_white] group-hover/row:opacity-30 group-hover/item:!opacity-100">
-              {brand}
-            </span>
-            <span className="w-2 h-2 rounded-full bg-vs-accent/20" />
-          </div>
-        ))}
-      </motion.div>
-    </div>
-  );
-}
 
 export function ExperienceShowcase() {
   const { ref, hasBeenInView } = useInViewport<HTMLElement>({
@@ -99,10 +61,6 @@ export function ExperienceShowcase() {
     mouseRotate.set(rotate);
   };
 
-  // Split brands into two rows
-  const row1 = useMemo(() => CLIENT_BRANDS.slice(0, Math.ceil(CLIENT_BRANDS.length / 2)), []);
-  const row2 = useMemo(() => CLIENT_BRANDS.slice(Math.ceil(CLIENT_BRANDS.length / 2)), []);
-
   return (
     <section
       ref={ref}
@@ -120,7 +78,7 @@ export function ExperienceShowcase() {
       />
 
       {/* Floating Image Reveal (Desktop Only) */}
-      <div className="absolute inset-0 z-50 pointer-events-none hidden lg:block">
+      <div className="absolute inset-0 z-50 pointer-events-none hidden md:block">
         <AnimatePresence mode="wait">
           {activeBrand && BRAND_IMAGE_MAP[activeBrand] && (
             <motion.div
@@ -136,7 +94,7 @@ export function ExperienceShowcase() {
                 x: "-50%",
                 y: "-50%",
               }}
-              className="absolute w-[280px] aspect-square overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-black z-50"
+              className="absolute w-[clamp(300px,35vw,550px)] aspect-[4/5] lg:aspect-square overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-black rounded-lg z-50 will-change-transform"
             >
               <Image
                 src={BRAND_IMAGE_MAP[activeBrand]}
@@ -178,7 +136,7 @@ export function ExperienceShowcase() {
       </div>
 
       {/* Editorial Header */}
-      <div className="relative z-10 px-6 md:px-12 lg:px-20 mb-16 md:mb-24">
+      <div className="relative z-10 px-6 md:px-12 lg:px-20 mb-16 md:mb-32">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={hasBeenInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
@@ -197,10 +155,14 @@ export function ExperienceShowcase() {
         </motion.div>
       </div>
 
-      {/* Kinetic Marquee Rows */}
-      <div className="relative z-10 flex flex-col w-screen">
-        <MarqueeRow items={row1} direction="left" onHover={setActiveBrand} />
-        <MarqueeRow items={row2} direction="right" onHover={setActiveBrand} />
+      {/* Center Layout for Layered Text */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-screen pt-12 pb-32">
+        <LayeredText 
+          items={CLIENT_BRANDS}
+          onItemHover={setActiveBrand}
+          fontSize="clamp(32px, 5vw, 72px)"
+          fontSizeMd="clamp(24px, 4vw, 40px)"
+        />
       </div>
     </section>
   );
