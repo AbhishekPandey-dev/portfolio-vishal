@@ -67,19 +67,16 @@ export function SignatureQuote() {
           }}
         >
           <p className="text-quote font-headline font-bold text-white leading-[1.3] tracking-tight">
-            I design and build digital experiences that perform
-            beautifully—
+            I design and build digital experiences that perform beautifully—
             <span className="text-vs-accent">clean code</span>,{" "}
-            <span className="text-vs-accent">thoughtful design</span>,
-            results that grow your business.
+            <span className="text-vs-accent">thoughtful design</span>, results
+            that grow your business.
           </p>
         </motion.blockquote>
 
         <motion.p
           initial={{ opacity: 0, y: 15 }}
-          animate={
-            hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }
-          }
+          animate={hasBeenInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
           transition={{
             duration: DURATION.normal,
             ease: EASING.expoOut,

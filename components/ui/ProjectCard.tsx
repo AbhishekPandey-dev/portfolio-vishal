@@ -101,7 +101,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               >
                 <span>View Live</span>
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                  <path
+                    d="M1 11L11 1M11 1H4M11 1V8"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="square"
+                  />
                 </svg>
               </Link>
             </motion.div>
@@ -145,7 +150,8 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
 
           {/* Project Title */}
-          <h3 className="font-headline font-black text-white tracking-tight leading-none"
+          <h3
+            className="font-headline font-black text-white tracking-tight leading-none"
             style={{ fontSize: "clamp(2.2rem, 4vw, 3.5rem)" }}
           >
             {project.title}
@@ -170,14 +176,17 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Tech stack tags */}
           <div className="flex flex-wrap gap-2 pt-1">
-            {project.tags.split(" | ").slice(0, 4).map((tag) => (
-              <span
-                key={tag}
-                className="px-2.5 py-1 border border-white/10 text-white/40 font-label text-[10px] uppercase tracking-[0.15em]"
-              >
-                {tag}
-              </span>
-            ))}
+            {project.tags
+              .split(" | ")
+              .slice(0, 4)
+              .map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2.5 py-1 border border-white/10 text-white/40 font-label text-[10px] uppercase tracking-[0.15em]"
+                >
+                  {tag}
+                </span>
+              ))}
           </div>
 
           {/* CTA — minimal, editorial */}

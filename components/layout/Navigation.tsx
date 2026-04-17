@@ -18,7 +18,7 @@ export function Navigation() {
       ([entry]) => {
         setIsAtFooter(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     const footer = document.querySelector("#footer");
@@ -42,14 +42,20 @@ export function Navigation() {
   }, [isOpen]);
 
   // Serif tags for a brutalist aesthetic
-  const asymmetricTags = ["Start here", "What we do", "Who am I?", "Expertise", "Get in touch"];
+  const asymmetricTags = [
+    "Start here",
+    "What we do",
+    "Who am I?",
+    "Expertise",
+    "Get in touch",
+  ];
 
   return (
     <>
       {/* Permanent Header Bar */}
       <AnimatePresence>
         {!isAtFooter && (
-          <motion.header 
+          <motion.header
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -88,11 +94,11 @@ export function Navigation() {
             className="fixed inset-0 z-[50] bg-[#050505] text-white px-6 py-6 md:px-12 flex flex-col overflow-hidden"
           >
             {/* Animated Grid Background */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
-              animate={{ 
+              animate={{
                 opacity: 0.15,
-                backgroundPosition: ["0px 0px", "60px 60px"]
+                backgroundPosition: ["0px 0px", "60px 60px"],
               }}
               className="absolute inset-0 pointer-events-none z-0"
               style={{
@@ -104,7 +110,11 @@ export function Navigation() {
               }}
               transition={{
                 opacity: { duration: 1, delay: 0.5 },
-                backgroundPosition: { duration: 10, repeat: Infinity, ease: "linear" }
+                backgroundPosition: {
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                },
               }}
             />
 
@@ -176,8 +186,6 @@ export function Navigation() {
                 })}
               </div>
             </div>
-
-            
           </motion.div>
         )}
       </AnimatePresence>
