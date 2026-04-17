@@ -125,9 +125,9 @@ export function ExperienceShowcase() {
           {activeBrand && BRAND_IMAGE_MAP[activeBrand] && (
             <motion.div
               key={activeBrand}
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              initial={{ opacity: 0, scale: 0.82, rotate: -6 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+              exit={{ opacity: 0, scale: 0.82, rotate: 6 }}
               transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
               style={{
                 left: springX,
@@ -136,22 +136,22 @@ export function ExperienceShowcase() {
                 x: "-50%",
                 y: "-50%",
               }}
-              className="absolute w-[320px] aspect-[16/10] overflow-hidden rounded-sm shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-black z-50"
+              className="absolute w-[280px] aspect-square overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] border border-white/10 bg-black z-50"
             >
               <Image
                 src={BRAND_IMAGE_MAP[activeBrand]}
                 alt={activeBrand}
                 fill
-                className="object-cover transition-transform duration-[1.5s] ease-[0.16,1,0.3,1] scale-110 hover:scale-100"
+                className="object-cover object-top"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               
               {/* Premium Corner Accents */}
-              <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-white/40" />
-              <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-white/40" />
-              <div className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-white/40" />
-              <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-white/40" />
+              <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-vs-accent/60" />
+              <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-vs-accent/60" />
+              <div className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-vs-accent/60" />
+              <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-vs-accent/60" />
 
               {/* Data Overlay */}
               <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end font-label text-[10px] tracking-widest text-white uppercase overflow-hidden">
