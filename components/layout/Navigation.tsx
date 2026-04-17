@@ -11,6 +11,7 @@ export function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isAtFooter, setIsAtFooter] = useState(false);
+  const [time, setTime] = useState<string>("");
 
   // Detect Footer to hide Nav
   useEffect(() => {
@@ -41,14 +42,23 @@ export function Navigation() {
     };
   }, [isOpen]);
 
-  // Serif tags for a brutalist aesthetic
-  const asymmetricTags = [
-    "Start here",
-    "What we do",
-    "Who am I?",
-    "Expertise",
-    "Get in touch",
-  ];
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime(
+        now.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZone: "Asia/Kolkata",
+          hour12: true,
+        }) + " IST"
+      );
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>
@@ -93,99 +103,100 @@ export function Navigation() {
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-[50] bg-[#050505] text-white px-6 py-6 md:px-12 flex flex-col overflow-hidden"
           >
-            {/* Animated Grid Background */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: 0.15,
-                backgroundPosition: ["0px 0px", "60px 60px"],
-              }}
-              className="absolute inset-0 pointer-events-none z-0"
-              style={{
-                backgroundImage: `
-                  linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-                  linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
-                `,
-                backgroundSize: "60px 60px",
-              }}
-              transition={{
-                opacity: { duration: 1, delay: 0.5 },
-                backgroundPosition: {
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "linear",
-                },
-              }}
-            />
-
-            {/* Glowing Vignette */}
-            <div className="absolute inset-0 pointer-events-none z-0 bg-radial-gradient from-transparent via-transparent to-black" />
-
-            {/* Visual Gimmick Feature - floating showcase (desktop only) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 hidden lg:flex items-center gap-6 opacity-30 select-none">
-              <span className="text-[15vw] font-serif italic text-white font-light">
-                * (
-              </span>
-              <div className="w-[12vw] aspect-[3/4] relative overflow-hidden rounded-md grayscale contrast-125 mx-2">
-                <Image
-                  src="/images/nappadori.png"
-                  alt="Showreel"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[15vw] font-serif italic text-white font-light">
-                )
-              </span>
+            {/* Background Vertical Grid Lines (Matched to Footer + Animated Scanline) */}
+            <div className="absolute inset-x-4 md:inset-x-12 inset-y-0 pointer-events-none flex justify-between z-0">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-full w-[1px] bg-white/[0.04] relative overflow-hidden"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to bottom, transparent 50%, rgba(255,255,255,0.04) 50%)",
+                    backgroundSize: "1px 8px",
+                  }}
+                >
+                  {/* Subtle Scanline Animation */}
+                  <motion.div
+                    animate={{
+                      y: ["-100%", "100%"],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "linear",
+                      delay: i * 0.5,
+                    }}
+                    className="absolute inset-x-0 h-32 bg-gradient-to-b from-transparent via-vs-accent/10 to-transparent"
+                  />
+                </div>
+              ))}
             </div>
 
+            {/* Glowing Vignette */}
+            <div className="absolute inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.8)_100%)]" />
+
+
             {/* Middle Section: Menu Links */}
-            <div className="flex-1 flex flex-col items-center justify-center relative z-10 w-full">
-              <div className="flex flex-col items-center space-y-2 md:space-y-4">
+            <div className="flex-1 flex flex-col items-center justify-center relative z-10 w-full px-4">
+              <div className="flex flex-col items-center space-y-3 md:space-y-6">
                 {NAV_LINKS.map((link, i) => {
                   const isActive = pathname === link.href;
 
                   return (
-                    <div
+                    <motion.div
                       key={link.href}
-                      className="relative group overflow-hidden cursor-pointer"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: 0.2 + i * 0.1,
+                        ease: [0.16, 1, 0.3, 1]
+                      }}
+                      className="relative group overflow-hidden cursor-pointer w-full text-center"
                       onClick={() => setIsOpen(false)}
                     >
-                      {/* Asymmetric Serif Tags (Desktop) */}
-                      <span className="absolute -left-16 md:-left-24 top-1/2 -translate-y-1/2 hidden md:block font-serif italic text-xs md:text-sm text-white/40 group-hover:text-white/80 transition-colors duration-300 pointer-events-none">
-                        {i % 2 === 0 ? asymmetricTags[i] : ""}
-                      </span>
-                      <span className="absolute -right-16 md:-right-24 top-1/2 -translate-y-1/2 hidden md:block font-serif italic text-xs md:text-sm text-white/40 group-hover:text-white/80 transition-colors duration-300 pointer-events-none">
-                        {i % 2 !== 0 ? asymmetricTags[i] : ""}
-                      </span>
-
                       {/* Main Link Wrapper - Double Text Hover Animation */}
                       <Link
                         href={link.href}
                         className="block relative overflow-hidden"
                       >
-                        {/* Static/Initial Text (slides up and disappears on hover) */}
                         <div
-                          className={`font-headline font-black text-[14vw] md:text-[9vw] uppercase tracking-tighter leading-[0.8] pb-2 transition-transform duration-500 ease-[0.76,0,0.24,1] group-hover:-translate-y-full ${
+                          className={`font-headline font-black text-[11vw] md:text-[7vw] uppercase tracking-tighter leading-[0.85] transition-transform duration-600 ease-[0.16,1,0.3,1] group-hover:-translate-y-full ${
                             isActive ? "text-vs-accent" : "text-white"
                           }`}
                         >
                           {link.label}
                         </div>
-                        {/* Hover Text (slides up from below to replace) */}
                         <div
-                          className={`absolute top-0 left-0 w-full font-headline font-black text-[14vw] md:text-[9vw] uppercase tracking-tighter leading-[0.8] pb-2 translate-y-full transition-transform duration-500 ease-[0.76,0,0.24,1] group-hover:translate-y-0 text-center ${
+                          className={`absolute top-0 left-0 w-full font-headline font-black text-[11vw] md:text-[7vw] uppercase tracking-tighter leading-[0.85] translate-y-full transition-transform duration-600 ease-[0.16,1,0.3,1] group-hover:translate-y-0 text-center ${
                             isActive ? "text-white" : "text-vs-accent"
                           }`}
                         >
                           {link.label}
                         </div>
                       </Link>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
+
+            {/* Bottom Bar: Ported from Footer for consistency */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="relative z-10 w-full flex flex-col md:flex-row justify-between items-end text-[10px] tracking-[0.2em] gap-6 md:gap-4 pb-4 md:pb-8 font-label text-white/40 uppercase"
+            >
+              <div className="flex flex-col gap-1 text-left">
+                <span>[ DESIGNED BY ABHISHEK PANDEY ]</span>
+                <span>[ DEVELOPED BY ABHISHEK & VISHAL ]</span>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <span>©{new Date().getFullYear()} VISHAL SINGH</span>
+                <span className="text-vs-accent leading-none h-3 inline-block">{time}</span>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
