@@ -71,14 +71,14 @@ export function ExperienceShowcase() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,217,255,0.03)_0%,_transparent_60%)] pointer-events-none" />
       
       {/* Ambient Dimming Overlay (Triggers on Hover) */}
-      <div 
-        className={`absolute inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-all duration-700 pointer-events-none ${
+      <div
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-[4px] transition-all duration-700 pointer-events-none ${
           activeBrand ? "opacity-100" : "opacity-0"
-        }`} 
+        }`}
       />
 
       {/* Floating Image Reveal (Desktop Only) */}
-      <div className="absolute inset-0 z-50 pointer-events-none hidden md:block">
+      <div className="fixed inset-0 z-50 pointer-events-none hidden md:block">
         <AnimatePresence mode="wait">
           {activeBrand && BRAND_IMAGE_MAP[activeBrand] && (
             <motion.div
@@ -88,8 +88,8 @@ export function ExperienceShowcase() {
               exit={{ opacity: 0, scale: 0.82, rotate: 6 }}
               transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
               style={{
-                left: springX,
-                top: springY,
+                left: "50%",
+                top: "50%",
                 rotate: springRotate,
                 x: "-50%",
                 y: "-50%",
