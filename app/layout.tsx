@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, Alumni_Sans } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
-import { LenisProvider } from "@/components/providers/LenisProvider";
-import { CustomCursor } from "@/components/ui/CustomCursor";
+import { LayoutShell } from "@/components/layout/LayoutShell";
 
 const processHeadline = Space_Grotesk({
   variable: "--font-headline",
@@ -46,14 +43,7 @@ export default function RootLayout({
       className={`${processHeadline.variable} ${processLabel.variable} ${bodyInter.variable} ${displayAlumni.variable} dark antialiased shadow-2xl`}
     >
       <body className="min-h-screen flex flex-col bg-vs-background text-vs-foreground overflow-x-hidden selection:bg-white selection:text-black">
-        <LenisProvider>
-          <CustomCursor />
-          <Navigation />
-          <main className="flex-grow">
-             {children}
-          </main>
-          <Footer />
-        </LenisProvider>
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
