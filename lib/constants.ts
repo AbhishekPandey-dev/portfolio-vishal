@@ -245,28 +245,28 @@ export interface ServiceItem {
 
 export const SERVICES: ServiceItem[] = [
   {
-    icon: "Zap",
-    title: "Building Blazing-Fast Interfaces",
+    icon: "Network",
+    title: "High-Performance Architecture",
     description:
-      "Crafting React & Next.js experiences that users love to interact with—responsive, performant, and pixel-perfect.",
+      "I construct resilient, sub-second architectures that scale with human intention. Zero bloated code, just pure React & Next.js performance.",
   },
   {
-    icon: "ShoppingBag",
-    title: "Turning Browsers Into Buyers",
+    icon: "Activity",
+    title: "Conversion-Driven Commerce",
     description:
-      "Conversion-focused Shopify & e-commerce development that transforms casual visitors into loyal customers.",
+      "Transforming passive traffic into active buyers. I deliver tailored Shopify ecosystems engineered for maximum behavioral conversion.",
   },
   {
-    icon: "Gauge",
-    title: "Making Your Site Faster",
+    icon: "Cpu",
+    title: "Core Web Optimization",
     description:
-      "Speed equals revenue. Performance optimization, Core Web Vitals tuning, and infrastructure that delivers results.",
+      "Speed is digital currency. I execute surgical Core Web Vitals tuning so your infrastructure performs with ruthless efficiency.",
   },
   {
-    icon: "Palette",
-    title: "Crafting Stunning Interfaces",
+    icon: "Layers",
+    title: "Awwwards-Level Interfaces",
     description:
-      "Intuitive UI/UX design that looks beautiful and works perfectly—from wireframe to production-ready code.",
+      "I shape digital spaces combining cinematic motion with psychological design principles. It doesn't just look stunning—it converts.",
   },
 ];
 
