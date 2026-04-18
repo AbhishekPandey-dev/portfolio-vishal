@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { useRef, useMemo } from "react";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ProcessStep } from "@/types";
@@ -53,62 +53,194 @@ const STEPS: ProcessStep[] = [
 
 export default function ProcessPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
-  // Parallax the massive numbers slightly
+  // Helper to split words for scrubbing
+  const splitText = (text: string) => {
+    return text.split(" ").map((word, i) => (
+      <span key={i} className="inline-block mr-[0.3em] scrub-word opacity-20">
+        {word}
+      </span>
+    ));
+  };
+
   useGSAP(() => {
-    const numbers = gsap.utils.toArray(".step-number") as HTMLElement[];
+    const sections = gsap.utils.toArray(".process-section") as HTMLElement[];
     
-    numbers.forEach((num) => {
-      gsap.to(num, {
-        y: -100,
-        ease: "none",
-        scrollTrigger: {
-          trigger: num.parentElement,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
+    // 1. PIN THE TITLE (Desktop Only)
+    if (window.innerWidth >= 768) {
+      ScrollTrigger.create({
+        trigger: triggerRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: ".pinned-header",
+        pinSpacing: false,
+      });
+    }
+
+    sections.forEach((section, i) => {
+      const number = section.querySelector(".step-number");
+      const content = section.querySelector(".section-content");
+      const words = section.querySelectorAll(".scrub-word");
+      const tags = section.querySelectorAll(".scrub-tag");
+
+      // Set explicit z-index for stacking
+      gsap.set(section, { zIndex: i + 10 });
+
+      // 2. PIN EACH SECTION (LAYERED PINNING)
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top top",
+        pin: true,
+        pinSpacing: false,
+        onToggle: (self) => {
+          if (self.isActive) {
+            const counter = document.querySelector(".current-phase");
+            if (counter) {
+              const newNum = (i + 1).toString().padStart(2, '0');
+              if (counter.textContent !== newNum) {
+                counter.textContent = newNum;
+                gsap.fromTo(counter, 
+                  { y: 5, opacity: 0 },
+                  { y: 0, opacity: 1, duration: 0.3 }
+                );
+              }
+            }
+          }
         }
       });
+
+      // 3. BACKGROUND LENS EFFECT (Number)
+      gsap.fromTo(number, 
+        { scale: 0.7, opacity: 0.1, rotate: -5, filter: "blur(20px)" },
+        {
+          scale: 1.1,
+          opacity: 0.4,
+          rotate: 5,
+          filter: "blur(0px)",
+          ease: "power2.inOut",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+          }
+        }
+      );
+
+      // 4. CLIP-PATH REVEAL (Layer Entry)
+      gsap.fromTo(content,
+        { clipPath: "circle(0% at 50% 50%)", opacity: 0 },
+        {
+          clipPath: "circle(100% at 50% 50%)",
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          }
+        }
+      );
+
+      // 5. WORD SCRUBBING
+      gsap.to(words, {
+        opacity: 1,
+        stagger: 0.1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 10%",
+          end: "top -50%",
+          scrub: 0.5,
+        }
+      });
+
+      // 6. STAGGERED TAGS
+      gsap.fromTo(tags,
+        { y: 20, opacity: 0, rotateX: 90 },
+        {
+          y: 0,
+          opacity: 1,
+          rotateX: 0,
+          stagger: 0.05,
+          duration: 0.8,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 20%",
+            toggleActions: "play none none reverse",
+          }
+        }
+      );
     });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+    };
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="bg-black pt-32 pb-32">
-      <div className="text-center mb-24">
+    <div ref={containerRef} className="bg-black pt-32 pb-32 overflow-x-hidden">
+      {/* HEADER SECTION (BEFORE PINNING) */}
+      <div className="text-center mb-48 px-6">
         <SectionLabel>Methodology</SectionLabel>
-        <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter uppercase mt-4">The Process</h2>
+        <h2 className="font-headline text-6xl md:text-9xl font-black tracking-tighter uppercase mt-4">
+          The <span className="text-white/20">Process</span>
+        </h2>
       </div>
 
-      <div>
-        {STEPS.map((step) => (
-          <div key={step.number} className="min-h-[80vh] flex flex-col justify-center items-center text-center px-8 sticky top-0 bg-black overflow-hidden border-t border-white/5">
-            <div className="step-number text-[180px] md:text-[320px] massive-stroke absolute inset-0 flex items-center justify-center z-0 select-none opacity-50 font-black font-headline tracking-tighter">
-              {step.number}
-            </div>
-            
-            <div className="relative z-10 max-w-3xl px-4 flex flex-col items-center">
-              <h3 className="font-headline text-5xl md:text-7xl font-bold uppercase tracking-tighter mb-8 text-white">
-                {step.title}
-              </h3>
-              <p className="font-body text-lg md:text-xl text-white/60 mx-auto leading-relaxed mb-10 max-w-2xl">
-                {step.description}
-              </p>
-              
-              {step.tags && (
-                <div className="flex flex-wrap justify-center gap-3 mt-4">
-                  {step.tags.map((tag, tagIndex) => (
-                    <span 
-                      key={tagIndex} 
-                      className="text-[10px] sm:text-xs font-mono px-3 py-1.5 border border-white/20 text-white/60 uppercase tracking-widest rounded-full bg-black/50 backdrop-blur-sm"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+      <div ref={triggerRef} className="relative flex flex-col md:flex-row">
+        
+        {/* PINNED SIDE HEADER (DESKTOP) */}
+        <div className="pinned-header hidden md:flex w-1/3 h-screen flex-col justify-center px-12 z-50 pointer-events-none">
+          <div className="border-l-2 border-vs-accent pl-8 py-4">
+            <h3 className="font-headline text-5xl font-black uppercase tracking-tight">How I</h3>
+            <h3 className="font-headline text-8xl font-black uppercase tracking-tighter text-vs-accent">Work</h3>
           </div>
-        ))}
+          <p className="mt-8 font-label text-xs uppercase tracking-[0.4em] text-white/30 pl-8">
+            <span className="current-phase">01</span> / 07 Phase
+          </p>
+        </div>
+
+        {/* SCROLLING CONTENT STACK */}
+        <div className="w-full md:w-2/3">
+          {STEPS.map((step) => (
+            <div 
+              key={step.number} 
+              className="process-section min-h-screen flex flex-col justify-center items-center text-center px-8 md:px-24 bg-black overflow-hidden border-t border-white/5"
+            >
+              {/* Massive Background Number */}
+              <div className="step-number text-[220px] md:text-[420px] massive-stroke absolute inset-0 flex items-center justify-center z-0 select-none opacity-10 font-black font-headline tracking-tighter pointer-events-none will-change-transform">
+                {step.number}
+              </div>
+              
+              <div className="section-content relative z-10 w-full flex flex-col items-center select-none">
+                <h3 className="font-headline text-5xl md:text-8xl font-black uppercase tracking-tighter mb-10 text-white">
+                  {step.title}
+                </h3>
+                
+                <p className="font-body text-xl md:text-2xl text-white/80 mx-auto leading-relaxed mb-12 max-w-2xl font-light">
+                  {splitText(step.description)}
+                </p>
+                
+                {step.tags && (
+                  <div className="flex flex-wrap justify-center gap-4 mt-4">
+                    {step.tags.map((tag, tagIndex) => (
+                      <span 
+                        key={tagIndex} 
+                        className="scrub-tag text-[10px] sm:text-xs font-mono px-5 py-2.5 border border-white/10 text-white/50 uppercase tracking-[0.2em] rounded-full bg-white/[0.03] backdrop-blur-md hover:border-vs-accent/50 hover:text-vs-accent transition-colors duration-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
