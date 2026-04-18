@@ -529,8 +529,10 @@ export function FeaturedWork() {
             >
               <BackgroundMedia project={active} />
 
-              {/* Subtle gradient so text remains readable */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30" />
+              {/* Multi-point gradient overlays for maximum text legibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40" />
+              <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-transparent to-transparent flex md:hidden" />
+              <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-transparent to-transparent hidden md:flex" />
             </motion.div>
           </AnimatePresence>
         </div>
@@ -546,7 +548,7 @@ export function FeaturedWork() {
         />
 
         {/* ── RIGHT: project info overlay ── */}
-        <div className="relative z-10 flex-1 flex flex-col justify-between p-8 md:p-14 pointer-events-none transition-opacity duration-300 delay-300 group-hover:opacity-10">
+        <div className="relative z-10 flex-1 flex flex-col justify-between p-8 md:p-14 pointer-events-none transition-opacity duration-300 delay-300 group-hover:opacity-40 drop-shadow-[0_4px_12px_rgba(0,0,0,0.45)]">
           {/* Top-right counter */}
           <div className="flex justify-end">
             <AnimatePresence mode="wait">
@@ -556,7 +558,7 @@ export function FeaturedWork() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 6 }}
                 transition={{ duration: 0.3 }}
-                className="font-label text-[10px] uppercase tracking-[0.4em] text-white/30 tabular-nums"
+                className="font-label text-[10px] uppercase tracking-[0.4em] text-white/50 tabular-nums"
               >
                 {counterStr}
               </motion.span>
@@ -645,10 +647,10 @@ export function FeaturedWork() {
                 />
               </div>
               <div className="flex items-center justify-between mt-2">
-                <span className="font-label text-[8px] uppercase tracking-[0.3em] text-white/20">
+                <span className="font-label text-[8px] uppercase tracking-[0.3em] text-white/40">
                   SCROLL TO NAVIGATE
                 </span>
-                <span className="font-label text-[8px] uppercase tracking-[0.3em] text-white/20 tabular-nums">
+                <span className="font-label text-[8px] uppercase tracking-[0.3em] text-white/40 tabular-nums">
                   {activeIndex + 1} / {TOTAL}
                 </span>
               </div>
