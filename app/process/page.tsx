@@ -134,6 +134,7 @@ export default function ProcessPage() {
         {
           clipPath: "circle(100% at 50% 50%)",
           opacity: 1,
+          pointerEvents: "auto",
           ease: "none",
           scrollTrigger: {
             trigger: section,
@@ -184,11 +185,14 @@ export default function ProcessPage() {
   return (
     <div ref={containerRef} className="bg-black pt-32 pb-32 overflow-x-hidden">
       {/* HEADER SECTION (BEFORE PINNING) */}
-      <div className="text-center mb-48 px-6">
+      <div className="text-center min-h-screen flex flex-col justify-center items-center px-6">
         <SectionLabel>Methodology</SectionLabel>
-        <h2 className="font-headline text-6xl md:text-9xl font-black tracking-tighter uppercase mt-4">
-          The <span className="text-white/20">Process</span>
+        <h2 className="font-headline text-6xl md:text-[12vw] font-black tracking-tighter uppercase mt-4 leading-[0.8]">
+          The <br className="md:hidden" /> <span className="text-white/20">Process</span>
         </h2>
+        <div className="mt-20 animate-bounce opacity-20">
+          <div className="w-px h-12 bg-vs-accent mx-auto"></div>
+        </div>
       </div>
 
       <div ref={triggerRef} className="relative flex flex-col md:flex-row">
@@ -216,7 +220,7 @@ export default function ProcessPage() {
                 {step.number}
               </div>
               
-              <div className="section-content relative z-10 w-full flex flex-col items-center select-none">
+              <div className="section-content relative z-10 w-full flex flex-col items-center select-none opacity-0 pointer-events-none">
                 <h3 className="font-headline text-5xl md:text-8xl font-black uppercase tracking-tighter mb-10 text-white">
                   {step.title}
                 </h3>
