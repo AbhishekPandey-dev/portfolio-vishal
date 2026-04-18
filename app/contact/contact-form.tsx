@@ -16,6 +16,7 @@ const SERVICE_OPTIONS = [
   'UI/UX Design',
   'Performance Optimization',
   'Ongoing Support',
+  'Other'
 ]
 
 function FieldError({ message }: { message?: string }) {
@@ -86,6 +87,7 @@ function CustomSelect({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.98 }}
             transition={{ duration: 0.3, ease: EASING.expoOut }}
+            data-lenis-prevent
             className="absolute left-0 right-0 z-50 mt-2 max-h-60 overflow-y-auto rounded-2xl border border-white/10 bg-[#0d0d0d] p-2 shadow-2xl backdrop-blur-xl"
           >
             {options.map((option) => (
@@ -422,8 +424,9 @@ export function ContactForm() {
                         required
                         minLength={20}
                         rows={5}
+                        data-lenis-prevent
                         placeholder="Tell me about your goals, scope, and timeline."
-                        className="mt-2 w-full resize-none border-b border-white/18 bg-transparent pb-4 text-white outline-none transition-all duration-300 placeholder:text-white/10 focus:border-vs-accent scrollbar-none"
+                        className="mt-2 w-full resize-none border-b border-white/18 bg-transparent pb-4 text-white outline-none transition-all duration-300 placeholder:text-white/10 focus:border-vs-accent"
                       />
                       <FieldError message={state.errors?.message} />
                     </div>
